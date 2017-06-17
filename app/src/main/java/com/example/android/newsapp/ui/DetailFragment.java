@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,18 +54,12 @@ public class DetailFragment extends Fragment {
         FloatingActionButton mapFab = (FloatingActionButton) view.findViewById(R.id.mapFab);
 
         titleTextView.setText(mArticle.title);
-        descTextView.setText(mArticle.longDescription);
+        descTextView.setText("article contentK");
 
-
-//      Uri img = Uri.parse(mArticle.imageUrl);
-        Uri img = Uri.parse("https://media.guim.co.uk/d8ff4b438b78fabb5b2bad73950928e132ed1cbe/0_271_5568_3341/500.jpg");
-        int imageSize = getResources().getDimensionPixelSize(R.dimen.image_size) * Constants.IMAGE_ANIM_MULTIPLIER;
-
-        Log.i("imageSize: ", Integer.toString(imageSize));
-
+        Uri img = Uri.parse(mArticle.imageUrl);
 
         Glide.with(getActivity())
-                .load("https://media.guim.co.uk/d8ff4b438b78fabb5b2bad73950928e132ed1cbe/0_271_5568_3341/500.jpg")
+                .load(img)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.color.lighter_gray)
                 .centerCrop()
