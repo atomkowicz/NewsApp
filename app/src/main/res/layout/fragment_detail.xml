@@ -30,7 +30,7 @@
             android:paddingEnd="@dimen/keyline3"
             android:paddingTop="@dimen/standard_margin"
             android:paddingBottom="@dimen/standard_margin"
-            android:elevation="2dp">
+            android:elevation="@dimen/default_elevation">
 
             <TextView
                 android:id="@+id/titleTextView"

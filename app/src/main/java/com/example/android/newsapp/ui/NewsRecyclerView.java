@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.List;
+
 /**
  * Simple RecyclerView subclass that supports providing an empty view (which
  * is displayed when the adapter has no data and hidden otherwise).

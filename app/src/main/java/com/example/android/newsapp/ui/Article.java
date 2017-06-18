@@ -1,6 +1,7 @@
 package com.example.android.newsapp.ui;
 
 import android.net.Uri;
+
 import java.io.Serializable;
 
 /**
@@ -13,34 +14,29 @@ public class Article implements Serializable {
     public String description;
     public String longDescription;
     public String imageUrl;
-    public String secondaryImageUrl = "https://lh4.googleusercontent.com/-ch9Kk-7pD68/VGLkCNh5niI/AAAAAAAAADc/ztxkRHWX-po/w600-no/DSC_2739.JPG";
+    public String datePublished;
+    public String webUrl;
+    public String sectionName;
 
-    public Article(String title, String description, String longDescription, Uri imageUrl,
-                   Uri secondaryImageUrl) {
+    public Article(String title, String description, String longDescription, Uri imageUrl, String datePublished, String webUrl, String sectionName) {
         this.title = title;
         this.description = description;
         this.longDescription = longDescription;
         this.imageUrl = uriToString(imageUrl);
-        //this.secondaryImageUrl = uriToString(secondaryImageUrl);
+        this.datePublished = datePublished;
+        this.webUrl = webUrl;
+        this.sectionName = sectionName;
     }
-
-    @Override
-    public String toString() {
-        return "Article{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", longDescription='" + longDescription + '\'' +
-                ", imageUrl=" + imageUrl +
-                ", secondaryImageUrl=" + secondaryImageUrl +
-                '}';
-    }
-
 
     private String uriToString(Uri uri) {
-        return uri.toString();
+        if (uri != null) {
+            return uri.toString();
+        } else {
+            return null;
+        }
     }
 
-    private Uri stringToUri(String stringUri) {
-        return Uri.parse(stringUri);
+    public Uri getUrl() {
+        return Uri.parse(this.webUrl);
     }
 }

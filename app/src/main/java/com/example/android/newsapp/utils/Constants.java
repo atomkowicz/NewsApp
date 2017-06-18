@@ -30,7 +30,7 @@ public class Constants {
     public static final String WHOLE_ARTICLE = "article";
 
     // Max # of news to show at once
-    public static final int MAX_NEWS = 4;
+    public static final int MAX_NEWS = 14;
 
     // Guardian open platform
 

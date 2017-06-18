@@ -76,20 +76,23 @@ public final class QueryUtils {
             for (int i = 0; i < results.length(); i++) {
                 JSONObject articleObj = results.getJSONObject(i);
                 String title = articleObj.getString("webTitle");
+                String datePublished = articleObj.getString("webPublicationDate");
+                String webUri = articleObj.getString("webUrl");
+                String sectionName = articleObj.getString("sectionName");
                 JSONObject fields = articleObj.getJSONObject("fields");
                 String body = fields.getString("body");
 
-                Uri uri;
+                Uri thumbnailUri;
 
                 if (fields.has("thumbnail")) {
                     String thumbnail = fields.getString("thumbnail");
-                    uri = Uri.parse(thumbnail);
+                    thumbnailUri = Uri.parse(thumbnail);
                 } else {
-                    uri = null;
+                    thumbnailUri = null;
                 }
 
                 // Create a new {@link Article} object
-                news.add(new Article(title, title, body, uri, uri));
+                news.add(new Article(title, title, body, thumbnailUri, datePublished, webUri, sectionName));
             }
 
         } catch (JSONException e) {

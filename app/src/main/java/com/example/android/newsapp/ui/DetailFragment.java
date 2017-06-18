@@ -54,7 +54,7 @@ public class DetailFragment extends Fragment {
         FloatingActionButton mapFab = (FloatingActionButton) view.findViewById(R.id.mapFab);
 
         titleTextView.setText(mArticle.title);
-        descTextView.setText("article contentK");
+        descTextView.setText("article content");
 
         Uri img = Uri.parse(mArticle.imageUrl);
 
