@@ -84,6 +84,8 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
     private void startLoadingData() {
         if (isConnected()) {
+            emptyTextView.setVisibility(View.GONE);
+            spinner.setVisibility(View.VISIBLE);
             loaderManager.restartLoader(Constants.NEWS_LOADER_ID, null, this);
         } else {
             emptyTextView.setVisibility(View.VISIBLE);
@@ -107,7 +109,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
         // Build query URL with base URL and parameters
         Uri baseUri = Uri.parse(Constants.GUARDIAN_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter("q", "jjjjjjjjjjjjjjjj");
+//        uriBuilder.appendQueryParameter("q", "jjjjjjjjjjjjjjjj");
         uriBuilder.appendQueryParameter("show-fields", "body,thumbnail");
         uriBuilder.appendQueryParameter("page-size", Integer.toString(Constants.MAX_NEWS));
         uriBuilder.appendQueryParameter("api-key", Constants.API_KEY);

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import butterknife.BindString;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.android.newsapp.R;
@@ -25,6 +26,7 @@ import com.example.android.newsapp.utils.Constants;
  * {@link com.example.android.newsapp.ui.DetailActivity}).
  */
 public class DetailFragment extends Fragment {
+    @BindString(R.string.sample_content) String sampleContent;
 
     public static DetailFragment createInstance(Article article) {
         DetailFragment detailFragment = new DetailFragment();
@@ -54,7 +56,7 @@ public class DetailFragment extends Fragment {
         FloatingActionButton mapFab = (FloatingActionButton) view.findViewById(R.id.mapFab);
 
         titleTextView.setText(mArticle.title);
-        descTextView.setText("article content");
+        descTextView.setText(sampleContent);
 
         Uri img = Uri.parse(mArticle.imageUrl);
 
