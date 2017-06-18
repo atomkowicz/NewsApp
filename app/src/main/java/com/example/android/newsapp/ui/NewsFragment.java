@@ -109,7 +109,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
         // Build query URL with base URL and parameters
         Uri baseUri = Uri.parse(Constants.GUARDIAN_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-//        uriBuilder.appendQueryParameter("q", "jjjjjjjjjjjjjjjj");
+        uriBuilder.appendQueryParameter("q", "technology");
         uriBuilder.appendQueryParameter("show-fields", "body,thumbnail");
         uriBuilder.appendQueryParameter("page-size", Integer.toString(Constants.MAX_NEWS));
         uriBuilder.appendQueryParameter("api-key", Constants.API_KEY);
@@ -215,9 +215,6 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
                 // Send the intent to launch a new activity
                 startActivity(websiteIntent);
-
-                // View heroView = view.findViewById(android.R.id.icon);
-                // DetailActivity.launch(getActivity(), mAdapter.mNewsList.get(position), heroView);
             }
         }
     }
