@@ -2,28 +2,28 @@ package com.example.android.newsapp.ui;
 
 import android.net.Uri;
 
-import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A simple news article class to easily pass data around.
- * Serializable interface lets us to pass Article object between activities
  */
 @SuppressWarnings("serial")
-public class Article implements Serializable {
+public class Article {
     private String title;
-    private String description;
-    private String longDescription;
+    private String trailText;
     private String imageUrl;
-    private String datePublished;
+    private Date datePublished;
     private String webUrl;
     private String sectionName;
 
-    public Article(String title, String description, String longDescription, Uri imageUrl, String datePublished, String webUrl, String sectionName) {
+    public Article(String title, String trailText, Uri imageUrl, String datePublished, String webUrl,
+                   String sectionName) {
         this.title = title;
-        this.description = description;
-        this.longDescription = longDescription;
+        this.trailText = trailText;
         this.imageUrl = uriToString(imageUrl);
-        this.datePublished = datePublished;
+        this.datePublished = stringToDate(datePublished);
         this.webUrl = webUrl;
         this.sectionName = sectionName;
     }
@@ -36,7 +36,7 @@ public class Article implements Serializable {
         }
     }
 
-    public Uri getUrl() {
+    public Uri getWebUrl() {
         return Uri.parse(this.webUrl);
     }
 
@@ -44,55 +44,30 @@ public class Article implements Serializable {
         return title;
     }
 
-    public void setTitle(String pTitle) {
-        title = pTitle;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String pDescription) {
-        description = pDescription;
-    }
-
-    public String getLongDescription() {
-        return longDescription;
-    }
-
-    public void setLongDescription(String pLongDescription) {
-        longDescription = pLongDescription;
+    public String getTrailText() {
+        return trailText;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String pImageUrl) {
-        imageUrl = pImageUrl;
-    }
-
-    public String getDatePublished() {
-        return datePublished;
-    }
-
-    public void setDatePublished(String pDatePublished) {
-        datePublished = pDatePublished;
-    }
-
-    public String getWebUrl() {
-        return webUrl;
-    }
-
-    public void setWebUrl(String pWebUrl) {
-        webUrl = pWebUrl;
-    }
-
     public String getSectionName() {
         return sectionName;
     }
 
-    public void setSectionName(String pSectionName) {
-        sectionName = pSectionName;
+    public String getDatePublished() {
+        return DateFormat.getDateInstance(DateFormat.LONG).format(this.datePublished);
+    }
+
+    private Date stringToDate(String datePublished) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        Date convertedDate = new Date();
+        try {
+            convertedDate = dateFormat.parse(datePublished);
+        } catch (java.text.ParseException pE) {
+            pE.printStackTrace();
+        }
+        return convertedDate;
     }
 }

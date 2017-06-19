@@ -40,27 +40,28 @@
 		tools:text="Title 1"/>
 
 	<TextView
-		android:id="@android:id/text2"
+		android:id="@+id/datePublished"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_toEndOf="@android:id/icon"
 		android:layout_below="@android:id/text1"
+		android:paddingLeft="@dimen/small_margin"
+		android:ellipsize="end"
+		android:maxLines="1"
+		android:textColor="@color/medium_gray"
+		style="?android:textAppearanceSmall"
+		tools:text="Date goes here"/>
+
+	<TextView
+		android:id="@android:id/text2"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_toEndOf="@android:id/icon"
+		android:layout_below="@id/datePublished"
 		android:padding="@dimen/small_margin"
 		android:ellipsize="end"
 		android:maxLines="3"
 		style="?android:textAppearanceSmall"
 		tools:text="Description goes here"/>
-
-	<TextView
-		android:id="@+id/datePublished"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_toEndOf="@android:id/icon"
-		android:layout_below="@android:id/text2"
-		android:padding="@dimen/small_margin"
-		android:ellipsize="end"
-		android:maxLines="1"
-		style="?android:textAppearanceSmall"
-		tools:text="Date goes here"/>
 
 </RelativeLayout>
