@@ -10,13 +10,13 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class Article implements Serializable {
-    public String title;
-    public String description;
-    public String longDescription;
-    public String imageUrl;
-    public String datePublished;
-    public String webUrl;
-    public String sectionName;
+    private String title;
+    private String description;
+    private String longDescription;
+    private String imageUrl;
+    private String datePublished;
+    private String webUrl;
+    private String sectionName;
 
     public Article(String title, String description, String longDescription, Uri imageUrl, String datePublished, String webUrl, String sectionName) {
         this.title = title;
@@ -38,5 +38,61 @@ public class Article implements Serializable {
 
     public Uri getUrl() {
         return Uri.parse(this.webUrl);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String pTitle) {
+        title = pTitle;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String pDescription) {
+        description = pDescription;
+    }
+
+    public String getLongDescription() {
+        return longDescription;
+    }
+
+    public void setLongDescription(String pLongDescription) {
+        longDescription = pLongDescription;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String pImageUrl) {
+        imageUrl = pImageUrl;
+    }
+
+    public String getDatePublished() {
+        return datePublished;
+    }
+
+    public void setDatePublished(String pDatePublished) {
+        datePublished = pDatePublished;
+    }
+
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public void setWebUrl(String pWebUrl) {
+        webUrl = pWebUrl;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String pSectionName) {
+        sectionName = pSectionName;
     }
 }

@@ -18,7 +18,7 @@ package com.example.android.newsapp.utils;
 
 public class Constants {
 
-    private Constants() {};
+    private Constants() {}
 
     // Used to size the images in the mobile app so they can animate cleanly from list to detail
     public static final int IMAGE_ANIM_MULTIPLIER = 2;
