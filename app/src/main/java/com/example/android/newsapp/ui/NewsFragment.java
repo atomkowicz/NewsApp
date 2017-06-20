@@ -36,15 +36,20 @@ import java.util.List;
  * {@link com.example.android.newsapp.MainActivity}).
  */
 public class NewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Article>> {
-    @BindView(android.R.id.list) NewsRecyclerView recyclerView;
-    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
-    @BindView(R.id.spinner) View spinner;
-    @BindView(android.R.id.empty) TextView emptyTextView;
-    @BindString(R.string.no_internet_connection) String noInternet;
+    @BindView(android.R.id.list)
+    NewsRecyclerView recyclerView;
+    @BindView(R.id.swipeContainer)
+    SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.spinner)
+    View spinner;
+    @BindView(android.R.id.empty)
+    TextView emptyTextView;
+    @BindString(R.string.no_internet_connection)
+    String noInternet;
 
     private NewsAdapter mAdapter;
     private int mImageSize;
-    private boolean mItemClicked;
+    //private boolean mItemClicked;
     LoaderManager loaderManager;
 
     public NewsFragment() {}
@@ -76,6 +81,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
             @Override
             public void onRefresh() {
                 startLoadingData();
+                spinner.setVisibility(View.GONE);
             }
         });
 
@@ -83,6 +89,8 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     private void startLoadingData() {
+        Log.i("NewsFragment", "startLoadingData() called");
+
         if (isConnected()) {
             emptyTextView.setVisibility(View.GONE);
             spinner.setVisibility(View.VISIBLE);
@@ -91,6 +99,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
             emptyTextView.setVisibility(View.VISIBLE);
             emptyTextView.setText(noInternet);
             spinner.setVisibility(View.GONE);
+            swipeContainer.setRefreshing(false);
         }
     }
 
@@ -109,8 +118,8 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
         // Build query URL with base URL and parameters
         Uri baseUri = Uri.parse(Constants.GUARDIAN_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-//        uriBuilder.appendQueryParameter("q", "jjjjjjjjjjjjjjjj");
-        uriBuilder.appendQueryParameter("show-fields", "body,thumbnail");
+        //uriBuilder.appendQueryParameter("q", "technology");
+        uriBuilder.appendQueryParameter("show-fields", "thumbnail,trailText,body");
         uriBuilder.appendQueryParameter("page-size", Integer.toString(Constants.MAX_NEWS));
         uriBuilder.appendQueryParameter("api-key", Constants.API_KEY);
 
@@ -119,15 +128,15 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Article>> loader, List<Article> earthquakes) {
+    public void onLoadFinished(Loader<List<Article>> loader, List<Article> news) {
         Log.i("NewsFragment", "onLoadFinished() called");
         spinner.setVisibility(View.GONE);
 
         // Clear previous data and fill list with newly fetch data
         mAdapter.clear();
 
-        if (earthquakes != null && !earthquakes.isEmpty()) {
-            mAdapter.addAll(earthquakes);
+        if (news != null && !news.isEmpty()) {
+            mAdapter.addAll(news);
         }
 
         swipeContainer.setRefreshing(false);
@@ -141,13 +150,19 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onResume() {
+        Log.i("NewsFragment", "onResume() called");
+        if (!isConnected()) {
+            emptyTextView.setText(noInternet);
+        }
         super.onResume();
-        mItemClicked = false;
+        //mItemClicked = false;
     }
 
     class NewsAdapter extends RecyclerView.Adapter<ViewHolder> implements ItemClickListener {
         @BindDrawable(R.drawable.empty_photo)
         Drawable emptyPhoto;
+        @BindString(R.string.no_browser_to_handle_intent)
+        String noBrowserInstalled;
 
         public List<Article> mNewsList;
         public Context mContext;
@@ -178,13 +193,13 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             Article article = mNewsList.get(position);
-            holder.mTitleTextView.setText(article.title);
-            holder.mDescriptionTextView.setText(article.description);
-            holder.mOverlayTextView.setText(article.sectionName);
-            holder.mDatePublishedTextView.setText(article.datePublished);
+            holder.mTitleTextView.setText(article.getTitle());
+            holder.mDescriptionTextView.setText(article.getTrailText());
+            holder.mOverlayTextView.setText(article.getSectionName());
+            holder.mDatePublishedTextView.setText(article.getDatePublished());
 
             Glide.with(mContext)
-                    .load(article.imageUrl)
+                    .load(article.getImageUrl())
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .placeholder(emptyPhoto)
                     .override(mImageSize, mImageSize)
@@ -203,33 +218,44 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         @Override
         public void onItemClick(View view, int position) {
-            if (!mItemClicked) {
-                mItemClicked = true;
-                final Article currentArticle = mNewsList.get(position);
+            // if (!mItemClicked) {
+            //    mItemClicked = true;
+            final Article currentArticle = mNewsList.get(position);
 
-                // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Uri bookURL = currentArticle.getUrl();
+            // Convert the String URL into a URI object (to pass into the Intent constructor)
+            Uri currentArticleUrl = currentArticle.getWebUrl();
 
-                // Create a new intent to view the book URI
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookURL);
+            // Create a new intent to view the article URI
+            Intent websiteIntent = new Intent(Intent.ACTION_VIEW, currentArticleUrl);
 
-                // Send the intent to launch a new activity
-                startActivity(websiteIntent);
+            // Check if there is an browser app installed on the phone, able to handle event
+//                if (websiteIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+//                    // Send the intent to launch a new activity
+//                    startActivity(websiteIntent);
+//                } else {
+//                    Toast toast = Toast.makeText(getContext(), noBrowserInstalled, Toast.LENGTH_SHORT);
+//                    toast.show();
+//                }
 
-                // View heroView = view.findViewById(android.R.id.icon);
-                // DetailActivity.launch(getActivity(), mAdapter.mNewsList.get(position), heroView);
-            }
+            View heroView = view.findViewById(android.R.id.icon);
+            DetailActivity.launch(getActivity(), mAdapter.mNewsList.get(position), heroView);
+            // }
         }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        @BindView(android.R.id.text1) TextView mTitleTextView;
-        @BindView(android.R.id.text2) TextView mDescriptionTextView;
-        @BindView(R.id.datePublished) TextView mDatePublishedTextView;
-        @BindView(R.id.overlaytext) TextView mOverlayTextView;
-        @BindView(android.R.id.icon) ImageView mImageView;
+        @BindView(android.R.id.text1)
+        TextView mTitleTextView;
+        @BindView(android.R.id.text2)
+        TextView mDescriptionTextView;
+        @BindView(R.id.datePublished)
+        TextView mDatePublishedTextView;
+        @BindView(R.id.overlaytext)
+        TextView mOverlayTextView;
+        @BindView(android.R.id.icon)
+        ImageView mImageView;
         ItemClickListener mItemClickListener;
 
         public ViewHolder(View view, ItemClickListener itemClickListener) {

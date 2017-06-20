@@ -1,8 +1,8 @@
 <resources>
 	<string name="app_name">NewsApp</string>
-
 	<string name="empty_list">No news found</string>
 	<string name="no_internet_connection">No internet connection</string>
 	<string name="action_test_notification">Test Notification</string>
 	<string name="sample_content">sample content</string>
+	<string name="no_browser_to_handle_intent">To see original article, install browser on your device</string>
 </resources>

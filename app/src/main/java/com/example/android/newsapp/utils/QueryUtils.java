@@ -39,7 +39,6 @@ public final class QueryUtils {
      */
     public static ArrayList<Article> fetchNewsData(String requestUrl) {
         Log.i(LOG_TAG, "fetchNewsData() called");
-
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -91,10 +90,17 @@ public final class QueryUtils {
                     thumbnailUri = null;
                 }
 
-                // Create a new {@link Article} object
-                news.add(new Article(title, title, body, thumbnailUri, datePublished, webUri, sectionName));
-            }
+                String trailText;
 
+                if (fields.has("trailText")) {
+                    trailText = fields.getString("trailText");
+                } else {
+                    trailText = null;
+                }
+
+                // Create a new {@link Article} object
+                news.add(new Article(title, trailText, thumbnailUri, datePublished, webUri, sectionName, body));
+            }
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message

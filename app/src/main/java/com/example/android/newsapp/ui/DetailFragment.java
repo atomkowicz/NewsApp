@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindString;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.data.HttpUrlFetcher;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.android.newsapp.R;
 import com.example.android.newsapp.utils.Constants;
@@ -53,12 +56,14 @@ public class DetailFragment extends Fragment {
         TextView titleTextView = (TextView) view.findViewById(R.id.titleTextView);
         TextView descTextView = (TextView) view.findViewById(R.id.descriptionTextView);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+        TextView bodyTextView = (TextView) view.findViewById(R.id.descriptionTextView);
         FloatingActionButton mapFab = (FloatingActionButton) view.findViewById(R.id.mapFab);
 
-        titleTextView.setText(mArticle.title);
+        titleTextView.setText(mArticle.getTitle());
         descTextView.setText(sampleContent);
+        bodyTextView.setText(fromHtml(mArticle.getBody()));
 
-        Uri img = Uri.parse(mArticle.imageUrl);
+        Uri img = Uri.parse(mArticle.getImageUrl());
 
         Glide.with(getActivity())
                 .load(img)
@@ -76,6 +81,17 @@ public class DetailFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html){
+        Spanned result;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            result = Html.fromHtml(html,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            result = Html.fromHtml(html);
+        }
+        return result;
     }
 
     @Override

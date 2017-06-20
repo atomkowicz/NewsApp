@@ -79,7 +79,7 @@
         app:layout_anchor="@id/textLayout"
         app:layout_anchorGravity="bottom|start"
         app:rippleColor="@color/colorAccent"
-        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginStart="@dimen/small_margin"
         android:clickable="true" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.List;
-
 /**
  * Simple RecyclerView subclass that supports providing an empty view (which
  * is displayed when the adapter has no data and hidden otherwise).
@@ -37,7 +35,6 @@ public class NewsRecyclerView extends RecyclerView {
     /**
      * Designate a view as the empty view. When the backing adapter has no
      * data this view will be made visible and the recycler view hidden.
-     *
      */
     public void setEmptyView(View emptyView) {
         mEmptyView = emptyView;
